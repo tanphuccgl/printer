@@ -7,8 +7,12 @@ class XColors {
   static final MaterialColor primaryColors =
       ColorUtility.generateMaterialColor(primary);
 
-  static const primary = Color(0xff11B1A5);
-  static const primary2 = Color(0xffff6b6b);
+  static const primary = Color(0xffF6F6F6);
+  static const primary2 = Color(0xffD9D9D9);
+
+  static const primary3 = Color(0xff7D7D7D);
+  static const primary4 = Color(0xffEFEFEF);
+
   static const borderInput = Color(0x1A000000);
   static const diableButton = Color(0xff01878A);
   static const shadowButton = Color(0x4001878A);

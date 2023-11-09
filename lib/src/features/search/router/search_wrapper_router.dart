@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:printer/src/features/card_student/router/card_student_router.dart';
+import 'package:printer/src/features/search/router/search_router.dart';
 
 class CardStudentWrapperPage extends StatelessWidget {
   const CardStudentWrapperPage({super.key});
@@ -9,8 +9,8 @@ class CardStudentWrapperPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RepositoryProvider.value(
-      value: (_) => context.read<CardStudentCoordinator>(),
-      child: context.read<CardStudentCoordinator>().getNavigator(),
+      value: (_) => context.read<SearchCoordinator>(),
+      child: context.read<SearchCoordinator>().getNavigator(),
     );
   }
 }

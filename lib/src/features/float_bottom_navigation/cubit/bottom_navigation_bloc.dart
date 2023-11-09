@@ -1,12 +1,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:printer/src/config/constants/images.dart';
-import 'package:printer/src/features/card_student/router/card_student_wrapper_router.dart';
-import 'package:printer/src/features/home/router/home_wrapper_router.dart';
-import 'package:printer/src/features/profile/router/profile_wrapper_router.dart';
-import 'package:printer/src/features/schedule/router/schedule_wrapper_router.dart';
-import 'package:printer/src/theme/colors.dart';
+import 'package:printer/src/features/add_new_code/router/add_new_code_wrapper_router.dart';
+import 'package:printer/src/features/search/router/search_wrapper_router.dart';
+import 'package:printer/src/features/sort/router/sort_wrapper_router.dart';
 import 'package:printer/widgets/common/empty_widget.dart';
 
 part 'bottom_navigation_state.dart';

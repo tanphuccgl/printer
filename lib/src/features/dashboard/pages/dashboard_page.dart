@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:printer/src/features/add_new_code/router/add_new_code_router.dart';
 
-import 'package:printer/src/features/card_student/router/card_student_router.dart';
 import 'package:printer/src/features/float_bottom_navigation/cubit/bottom_navigation_bloc.dart';
 import 'package:printer/src/features/float_bottom_navigation/pages/float_bottom_navigation.dart';
-import 'package:printer/src/features/home/router/home_router.dart';
-import 'package:printer/src/features/profile/router/profile_router.dart';
-import 'package:printer/src/features/schedule/router/schedule_router.dart';
+import 'package:printer/src/features/search/router/search_router.dart';
+import 'package:printer/src/features/sort/router/sort_router.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
@@ -15,10 +14,9 @@ class DashboardPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
-        RepositoryProvider(create: (_) => HomeCoordinator()),
-        RepositoryProvider(create: (_) => ProfileCoordinator()),
-        RepositoryProvider(create: (_) => CardStudentCoordinator()),
-        RepositoryProvider(create: (_) => ScheduleCoordinator()),
+        RepositoryProvider(create: (_) => AddNewCodeCoordinator()),
+        RepositoryProvider(create: (_) => SearchCoordinator()),
+        RepositoryProvider(create: (_) => SortCoordinator()),
       ],
       child: MultiBlocProvider(
         providers: [

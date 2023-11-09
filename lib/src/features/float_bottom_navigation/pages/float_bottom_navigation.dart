@@ -4,9 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:printer/src/features/float_bottom_navigation/cubit/bottom_navigation_bloc.dart';
 import 'package:printer/src/theme/colors.dart';
-import 'package:printer/src/utils/helper/gap.dart';
-import 'package:printer/src/utils/helper/radius.dart';
-import 'package:printer/widgets/common/empty_widget.dart';
 
 class FloatBottomNavigation extends StatelessWidget {
   const FloatBottomNavigation({super.key});
@@ -16,55 +13,40 @@ class FloatBottomNavigation extends StatelessWidget {
     return BlocBuilder<BottomNavigationBloc, BottomNavigationState>(
       builder: (context, state) {
         return Container(
-          padding: EdgeInsets.symmetric(vertical: 15.h),
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: Colors.white,
-            borderRadius: const BorderRadius.only(
+            borderRadius: BorderRadius.only(
               topLeft: Radius.circular(20),
               topRight: Radius.circular(20),
             ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.25),
-                offset: const Offset(0, 0),
-                blurRadius: 10,
-              ),
-            ],
           ),
-          constraints: BoxConstraints(maxHeight: 80.h),
+          constraints: BoxConstraints(maxHeight: 60.h),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             mainAxisSize: MainAxisSize.max,
             children: List.generate(PageIndex.values.length, (i) {
               final element = PageIndex.values[i];
-              if ((element == PageIndex.calendar ||
-                  element == PageIndex.studentCard)) {
-                return const EmptyWidget();
-              }
 
               return Expanded(
                 child: GestureDetector(
-                  onTap: () =>
-                      context.read<BottomNavigationBloc>().onItemTapped(i),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      element.iconOf(isActived: state.pageIndex == element),
-                      GapHelper.h4,
-                      state.pageIndex == element
-                          ? Container(
-                              decoration: BoxDecoration(
-                                color: XColors.primary,
-                                borderRadius: BorderHelper.r2,
-                              ),
-                              width: 20.w,
-                              height: 5.h,
-                            )
-                          : const EmptyWidget(),
-                    ],
-                  ),
-                ),
+                    onTap: () =>
+                        context.read<BottomNavigationBloc>().onItemTapped(i),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.black,
+                          strokeAlign: 1,
+                        ),
+                        color: element == state.pageIndex
+                            ? XColors.primary2
+                            : XColors.primary,
+                      ),
+                      child: Center(
+                          child: Text(
+                        element.lableOf(),
+                        style: const TextStyle(fontSize: 18),
+                      )),
+                    )),
               );
             }),
           ),
