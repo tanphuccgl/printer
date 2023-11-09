@@ -32,13 +32,13 @@ class XInput extends StatefulWidget {
     this.isDense = false,
     this.onSubmitted,
     this.textCapitalization = TextCapitalization.none,
-    this.suffixIconConstraints,
     this.enabled = true,
     this.hintMaxLines,
     this.counterText,
     this.errorBorder,
     this.cursorColor,
     this.fillColor,
+    this.showArrowIcon = false,
   }) : super(key: key);
 
   final String value;
@@ -67,12 +67,12 @@ class XInput extends StatefulWidget {
   final bool isDense;
   final Function(String value)? onSubmitted;
   final TextCapitalization textCapitalization;
-  final BoxConstraints? suffixIconConstraints;
   final bool? enabled;
   final int? hintMaxLines;
   final String? counterText;
   final Color? cursorColor;
   final Color? fillColor;
+  final bool showArrowIcon;
 
   @override
   State<XInput> createState() => _XInputState();
@@ -131,6 +131,12 @@ class _XInputState extends State<XInput> {
         ),
       );
     }
+
+    if (widget.showArrowIcon) {
+      actions.add(
+        const Icon(Icons.arrow_drop_down_outlined),
+      );
+    }
     if (actions.isEmpty) {
       return null;
     }
@@ -147,16 +153,16 @@ class _XInputState extends State<XInput> {
   @override
   Widget build(BuildContext context) {
     final enabledBorder = OutlineInputBorder(
-      borderSide: const BorderSide(color: XColors.borderInput, width: 2.51),
-      borderRadius: BorderHelper.r16,
+      borderSide: const BorderSide(color: XColors.borderInput, width: 0),
+      borderRadius: BorderHelper.r10,
     );
     final focusedBorder = OutlineInputBorder(
-      borderSide: const BorderSide(color: XColors.primary, width: 2.51),
-      borderRadius: BorderHelper.r16,
+      borderSide: const BorderSide(color: XColors.primary, width: 0),
+      borderRadius: BorderHelper.r10,
     );
     final errorBorder = OutlineInputBorder(
-      borderSide: const BorderSide(color: Colors.red, width: 2.51),
-      borderRadius: BorderHelper.r16,
+      borderSide: const BorderSide(color: Colors.red, width: 0),
+      borderRadius: BorderHelper.r10,
     );
 
     return TextField(
@@ -164,29 +170,19 @@ class _XInputState extends State<XInput> {
       focusNode: _focusNode,
       decoration: InputDecoration(
         labelStyle: const TextStyle(color: Color(0xCC50555C)),
-        helperText: widget.helperText,
-        helperMaxLines: 1,
         hintText: widget.hintText,
         hintStyle: widget.hintStyle ?? Theme.of(context).textTheme.labelLarge,
         hintMaxLines: widget.hintMaxLines,
-        errorText: widget.errorText,
-        errorStyle: const TextStyle(
-          color: Colors.red,
-          fontSize: 14,
-          fontWeight: FontWeight.w500,
-          letterSpacing: 0.25,
-        ),
-        errorMaxLines: 1,
         floatingLabelBehavior: FloatingLabelBehavior.auto,
         isDense: widget.isDense,
         contentPadding: widget.contentPadding ??
-            const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
+            const EdgeInsets.symmetric(vertical: 11, horizontal: 15),
         prefixIcon: widget.prefixIcon,
         suffixIcon: _buildActions(),
         counterText: widget.counterText,
         counterStyle: const TextStyle(color: XColors.borderInput),
-        filled: widget.errorText == null ? filled : null,
-        fillColor: widget.fillColor ?? XColors.fillColor,
+        filled: true,
+        fillColor: XColors.primary2,
         errorBorder: widget.errorBorder ?? errorBorder,
         focusedBorder: widget.focusedBorder ?? focusedBorder,
         focusedErrorBorder: widget.focusedBorder ?? errorBorder,
@@ -196,10 +192,10 @@ class _XInputState extends State<XInput> {
       keyboardType: widget.keyboardType,
       textCapitalization: widget.textCapitalization,
       style: widget.style ??
-          Theme.of(context)
-              .textTheme
-              .labelLarge
-              ?.copyWith(fontSize: 18.sp, color: Colors.black),
+          Theme.of(context).textTheme.labelLarge?.copyWith(
+              fontSize: 18.sp,
+              color: Colors.black,
+              fontWeight: FontWeight.w500),
       textAlign: widget.textAlign,
       readOnly: widget.readOnly,
       autofocus: widget.autofocus,

@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:printer/src/features/common/pages/not_found_page.dart';
-import 'package:printer/src/features/profile/pages/profile_page.dart';
+import 'package:printer/src/features/search/pages/search_page.dart';
 
 import 'package:printer/src/router/base_coordinator.dart';
 
-class XProfileRouterName {
-  static const String home = '/profile';
+class XCardStudentRouterName {
+  static const String search = '/search';
 }
 
-class ProfileCoordinator extends BaseCoordinator {
+class SearchCoordinator extends BaseCoordinator {
   @override
-  String get initialRoute => XProfileRouterName.home;
+  String get initialRoute => XCardStudentRouterName.search;
 
   @override
   Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
-      case XProfileRouterName.home:
-        return MaterialPageRoute(builder: (_) => const ProfilePage());
+      case XCardStudentRouterName.search:
+        return MaterialPageRoute(builder: (_) => const SearchPage());
 
       default:
         return MaterialPageRoute(builder: (_) => const NotFoundPage());
