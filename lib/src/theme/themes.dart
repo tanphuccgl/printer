@@ -28,7 +28,6 @@ class XTheme {
             fontSize: 20,
             fontWeight: FontWeight.w700,
             letterSpacing: -0.41,
-            height: 1.5,
           ),
           systemOverlayStyle: barOverLayStyle,
         ),

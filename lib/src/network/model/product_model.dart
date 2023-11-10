@@ -26,6 +26,15 @@ enum LocationEnum {
         return "outside";
     }
   }
+
+  String get label {
+    switch (this) {
+      case LocationEnum.inside:
+        return "trong";
+      case LocationEnum.outside:
+        return "ngoài";
+    }
+  }
 }
 
 class ProductModel extends BaseModel {
