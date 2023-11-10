@@ -48,22 +48,15 @@ class BaseCollectionReference<T extends BaseModel> {
     try {
       FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-      // Lấy giá trị ID hiện tại từ Firestore
-      //TODO
       DocumentReference counterRef =
           firestore.collection('counters').doc('productCounter');
       DocumentSnapshot counterSnapshot = await counterRef.get();
       int currentId = counterSnapshot.exists ? counterSnapshot['value'] : 0;
 
-      // Tăng giá trị ID
       currentId++;
 
-      // Gán giá trị ID mới cho sản phẩm
       item.id = currentId.toString();
 
-      // Thêm sản phẩm vào Firestore
-
-      // Cập nhật giá trị ID trên Firestore
       await counterRef.set({'value': currentId});
       await ref
           .doc(item.id.isEmpty ? null : item.id)

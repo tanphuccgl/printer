@@ -8,4 +8,10 @@ abstract class ProductRepository {
     required String productId,
     required Map<String, dynamic> item,
   });
+
+  Future<XResult<ProductModel>> getProduct(String id);
+
+  Future<XResult<String>> deleteProduct(String id);
+
+  Future<XResult<List<ProductModel>>> getAllProduct();
 }
