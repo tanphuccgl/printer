@@ -8,6 +8,13 @@ class ProductRepositoryImpl extends ProductRepository {
 
   @override
   Future<XResult<ProductModel>> createProduct(ProductModel data) async {
-    return reference.add(data);
+    return reference.set(data);
   }
+
+  @override
+  Future<XResult<bool>> updateProduct({
+    required String productId,
+    required Map<String, dynamic> item,
+  }) async =>
+      reference.update(productId, item);
 }

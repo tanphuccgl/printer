@@ -34,6 +34,18 @@ class BaseCollectionReference<T extends BaseModel> {
 
   Future<XResult<T>> add(T item) async {
     try {
+      final DocumentReference<T> doc = await ref
+          .add(item)
+          .timeout(const Duration(seconds: Endpoints.connectionTimeout));
+      item.id = doc.id;
+      return XResult.success(item);
+    } catch (e) {
+      return XResult.exception(e);
+    }
+  }
+
+  Future<XResult<T>> set(T item, {bool merge = true}) async {
+    try {
       FirebaseFirestore firestore = FirebaseFirestore.instance;
 
       // Lấy giá trị ID hiện tại từ Firestore
@@ -53,19 +65,6 @@ class BaseCollectionReference<T extends BaseModel> {
 
       // Cập nhật giá trị ID trên Firestore
       await counterRef.set({'value': currentId});
-
-      final DocumentReference<T> doc = await ref
-          .add(item)
-          .timeout(const Duration(seconds: Endpoints.connectionTimeout));
-      item.id = doc.id;
-      return XResult.success(item);
-    } catch (e) {
-      return XResult.exception(e);
-    }
-  }
-
-  Future<XResult<T>> set(T item, {bool merge = true}) async {
-    try {
       await ref
           .doc(item.id.isEmpty ? null : item.id)
           .set(item, SetOptions(merge: merge))
