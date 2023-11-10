@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:printer/firebase_options.dart';
+import 'package:printer/src/network/domain.dart';
 
 import 'package:printer/src/services/user_prefs.dart';
 import 'package:printer/src/theme/themes.dart';
-
+import 'package:get_it/get_it.dart';
 import 'features/common/app_cubit/bloc_observer.dart';
 
 class ConfigApp {
@@ -28,8 +29,7 @@ class ConfigApp {
   }
 
   static void _locator() {
-    // GetIt.I
-    //   ..registerLazySingleton(() => Domain())
+    GetIt.I.registerLazySingleton(() => Domain());
     //   ..registerLazySingleton(() => AccountBloc())
     //   ..registerLazySingleton(() => ListScheduleBloc());
   }

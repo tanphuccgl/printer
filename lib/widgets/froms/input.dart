@@ -189,6 +189,7 @@ class _XInputState extends State<XInput> {
         enabledBorder: widget.enabledBorder ?? enabledBorder,
         border: widget.border,
       ),
+      onTapOutside: (e) => FocusScope.of(context).unfocus(),
       keyboardType: widget.keyboardType,
       textCapitalization: widget.textCapitalization,
       style: widget.style ??

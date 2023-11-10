@@ -1,141 +1,132 @@
-import 'package:dio/dio.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:printer/src/config/constants/endpoints.dart';
+import 'package:printer/src/network/model/common/base_model.dart';
 import 'package:printer/src/network/model/common/result.dart';
-import 'package:printer/src/utils/helper/logger.dart';
 
-class BaseDataSource {
-  // dio instance
-  final Dio _dio = Dio();
+class BaseCollectionReference<T extends BaseModel> {
+  BaseCollectionReference(this.ref);
+  void log(dynamic value) => debugPrint('$value');
+  final CollectionReference<T> ref;
 
-  // injecting dio instance
-  BaseDataSource();
-
-  // Get:-----------------------------------------------------------------------
-  Future<Response> get<T>(
-    String uri, {
-    Map<String, dynamic>? queryParameters,
-    Options? options,
-    CancelToken? cancelToken,
-    ProgressCallback? onReceiveProgress,
-  }) async {
+  Future<XResult<T>> get(String id) async {
     try {
-      final Response response = await _dio
-          .get(
-            uri,
-            queryParameters: queryParameters,
-            options: options,
-            cancelToken: cancelToken,
-            onReceiveProgress: onReceiveProgress,
-          )
-          .timeout(const Duration(milliseconds: Endpoints.connectionTimeout));
-      LoggerHelper.successApi('> GET RESPONSE [${response.statusCode}]<  $uri');
-
-      return response;
+      final DocumentSnapshot<T> doc = await ref.doc(id).get();
+      if (doc.exists) {
+        return XResult.success(doc.data());
+      } else {
+        return XResult.error('Error');
+      }
     } catch (e) {
-      LoggerHelper.errorApi('> API CATCH Error< $e');
-      rethrow;
-    }
-  }
-
-  // Post:----------------------------------------------------------------------
-  Future<Response> post(
-    String uri, {
-    dynamic data,
-    Map<String, dynamic>? queryParameters,
-    Options? options,
-    CancelToken? cancelToken,
-    ProgressCallback? onSendProgress,
-    ProgressCallback? onReceiveProgress,
-  }) async {
-    try {
-      final Response response = await _dio
-          .post(
-            uri,
-            data: data,
-            queryParameters: queryParameters,
-            options: options,
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
-          )
-          .timeout(const Duration(milliseconds: Endpoints.connectionTimeout));
-      LoggerHelper.successApi(
-        '> POST RESPONSE [${response.statusCode}]< $uri $data',
-      );
-
-      return response;
-    } catch (e) {
-      LoggerHelper.errorApi('> API CATCH Error< $e');
-      rethrow;
-    }
-  }
-
-  // Put:-----------------------------------------------------------------------
-  Future<XResult<T>> put<T>(
-    String uri, {
-    required T data,
-    required List<int> statusCodes,
-    required Map<String, dynamic>? queryParameters,
-    Options? options,
-    CancelToken? cancelToken,
-    ProgressCallback? onSendProgress,
-    ProgressCallback? onReceiveProgress,
-  }) async {
-    try {
-      final Response response = await _dio
-          .put(
-            uri,
-            data: data,
-            queryParameters: queryParameters,
-            options: options,
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
-          )
-          .timeout(const Duration(milliseconds: Endpoints.connectionTimeout));
-      LoggerHelper.successApi(
-        '> PUT RESPONSE [${response.statusCode}]< $uri $data',
-      );
-
-      return statusCodes.contains(response.statusCode)
-          ? XResult.success(response.data)
-          : XResult.error(response.statusCode.toString());
-    } catch (e) {
-      LoggerHelper.errorApi('> API CATCH Error< $e');
-
       return XResult.exception(e);
     }
   }
 
-  // Delete:--------------------------------------------------------------------
-  Future<XResult<T>> delete<T>(
-    String uri, {
-    required T data,
-    required List<int> statusCodes,
-    Map<String, dynamic>? queryParameters,
-    Options? options,
-    CancelToken? cancelToken,
-  }) async {
+  Stream<DocumentSnapshot<T>> snapshots(String id) {
+    return ref.doc(id).snapshots();
+  }
+
+  Stream<List<T>> snapshotsData() {
+    return ref
+        .snapshots()
+        .map((event) => event.docs.map((e) => e.data()).toList());
+  }
+
+  Future<XResult<T>> add(T item) async {
     try {
-      final Response response = await _dio
-          .delete(
-            uri,
-            data: data,
-            queryParameters: queryParameters,
-            options: options,
-            cancelToken: cancelToken,
-          )
-          .timeout(const Duration(milliseconds: Endpoints.connectionTimeout));
-      LoggerHelper.successApi(
-        '> DELETE RESPONSE [${response.statusCode}]< $uri $data',
-      );
+      FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-      return statusCodes.contains(response.statusCode)
-          ? XResult.success(response.data)
-          : XResult.error(response.statusCode.toString());
+      // Lấy giá trị ID hiện tại từ Firestore
+      //TODO
+      DocumentReference counterRef =
+          firestore.collection('counters').doc('productCounter');
+      DocumentSnapshot counterSnapshot = await counterRef.get();
+      int currentId = counterSnapshot.exists ? counterSnapshot['value'] : 0;
+
+      // Tăng giá trị ID
+      currentId++;
+
+      // Gán giá trị ID mới cho sản phẩm
+      item.id = currentId.toString();
+
+      // Thêm sản phẩm vào Firestore
+
+      // Cập nhật giá trị ID trên Firestore
+      await counterRef.set({'value': currentId});
+
+      final DocumentReference<T> doc = await ref
+          .add(item)
+          .timeout(const Duration(seconds: Endpoints.connectionTimeout));
+      item.id = doc.id;
+      return XResult.success(item);
     } catch (e) {
-      LoggerHelper.errorApi('> API CATCH Error< $e');
+      return XResult.exception(e);
+    }
+  }
 
+  Future<XResult<T>> set(T item, {bool merge = true}) async {
+    try {
+      await ref
+          .doc(item.id.isEmpty ? null : item.id)
+          .set(item, SetOptions(merge: merge))
+          .timeout(const Duration(seconds: Endpoints.connectionTimeout));
+      return XResult.success(item);
+    } catch (e) {
+      return XResult.exception(e);
+    }
+  }
+
+  Future<XResult<bool>> update(String id, Map<String, dynamic> item) async {
+    try {
+      await ref
+          .doc(id)
+          .update(item)
+          .timeout(const Duration(seconds: Endpoints.connectionTimeout));
+      return XResult.success(true);
+    } catch (e) {
+      return XResult.exception(e);
+    }
+  }
+
+  Future<XResult<String>> remove(String id) async {
+    try {
+      await ref
+          .doc(id)
+          .delete()
+          .timeout(const Duration(seconds: Endpoints.connectionTimeout));
+      return XResult.success(id);
+    } catch (e) {
+      return XResult.exception(e);
+    }
+  }
+
+  Future<XResult<List<T>>> query() async {
+    try {
+      final QuerySnapshot<T> query = await ref
+          .get()
+          .timeout(const Duration(seconds: Endpoints.connectionTimeout));
+      final docs = query.docs.map((e) => e.data()).toList();
+      return XResult.success(docs);
+    } catch (e) {
+      return XResult.exception(e);
+    }
+  }
+
+  Future<XResult<List<T>>> commit(List<T> items, {bool merge = true}) async {
+    try {
+      var batch = ref.firestore.batch();
+      for (int i = 0; i < items.length; i++) {
+        {
+          batch.set(ref.doc(items[i].id), items[i], SetOptions(merge: merge));
+        }
+      }
+
+      batch
+          .commit()
+          .timeout(const Duration(seconds: Endpoints.connectionTimeout));
+
+      return XResult.success(items);
+    } catch (e) {
       return XResult.exception(e);
     }
   }

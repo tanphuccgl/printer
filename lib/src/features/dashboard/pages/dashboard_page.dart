@@ -30,6 +30,7 @@ class DashboardPage extends StatelessWidget {
               onWillPop: () async => false,
               child: Stack(children: [
                 Scaffold(
+                  resizeToAvoidBottomInset: false,
                   body: state.pageIndex.page,
                   bottomNavigationBar: const FloatBottomNavigation(),
                 ),

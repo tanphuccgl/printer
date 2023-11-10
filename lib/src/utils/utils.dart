@@ -1,41 +1,14 @@
-class UtilsCalendar {
-  static String formatDateMessage(String dateString) {
-    try {
-      DateTime date = DateTime.parse(dateString);
-      DateTime now = DateTime.now();
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-      return date.year == now.year &&
-              date.month == now.month &&
-              date.day == now.day
-          ? date.toString().substring(
-                11,
-                16,
-              )
-          : '${date.day} th${date.month}';
-    } catch (e) {
-      return "";
+class Utils {
+  static Timestamp convertMapToTimestamp(dynamic data) {
+    if (data != null) {
+      if (data is int) {
+        return Timestamp.fromMillisecondsSinceEpoch(data);
+      } else if (data is Timestamp) {
+        return data;
+      }
     }
-  }
-
-  static String formatUpdateDateCalendar(String dateString) {
-    try {
-      DateTime date = DateTime.parse(dateString);
-
-      return 'Cập nhật lúc ${date.hour.toString().padLeft(
-            2,
-            '0',
-          )}:${date.minute.toString().padLeft(
-            2,
-            '0',
-          )} Ngày ${date.day.toString().padLeft(
-            2,
-            '0',
-          )}/${date.month.toString().padLeft(
-            2,
-            '0',
-          )}/${date.year.toString().substring(2)}';
-    } catch (e) {
-      return "";
-    }
+    return Timestamp.now();
   }
 }
