@@ -25,7 +25,7 @@ enum PermissionTypeEnum {
   Permission get permission {
     switch (this) {
       case PermissionTypeEnum.photo:
-        return Platform.isIOS ? Permission.photos : Permission.storage;
+        return Permission.photos;
       case PermissionTypeEnum.camera:
         return Permission.camera;
       case PermissionTypeEnum.location:
@@ -92,6 +92,7 @@ class PermissionService {
 
     if (!shouldShowRequestRationale) {
       final PermissionStatus status = await type.permission.request();
+
       if (status.isPermanentlyDenied) {
         openAppSettings();
       }

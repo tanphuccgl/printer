@@ -76,16 +76,15 @@ class AddNewCodeBloc extends Cubit<AddNewCodeState> with PickImageMixin {
 
   static Future<String?> uploadUserAvatar(XFile file) async {
     final storageRef = FirebaseStorage.instance.ref();
-    //TODO
-    final Reference usersRef = storageRef.child(".users");
+
+    final Reference usersRef = storageRef;
     final newFile = File(file.path);
     try {
       final metadata = SettableMetadata(
         contentType: 'image/jpeg',
       );
-      //TODO
+
       var uploadTask = await usersRef
-          .child("avatar")
           .child(file.hashCode.toString())
           .putFile(newFile, metadata);
       return uploadTask.ref.getDownloadURL();

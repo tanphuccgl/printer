@@ -17,4 +17,19 @@ class ProductRepositoryImpl extends ProductRepository {
     required Map<String, dynamic> item,
   }) async =>
       reference.update(productId, item);
+
+  @override
+  Future<XResult<ProductModel>> getProduct(String id) async {
+    return reference.getProduct(id);
+  }
+
+  @override
+  Future<XResult<String>> deleteProduct(String id) async {
+    return reference.remove(id);
+  }
+
+  @override
+  Future<XResult<List<ProductModel>>> getAllProduct() async {
+    return reference.getAllProduct();
+  }
 }
