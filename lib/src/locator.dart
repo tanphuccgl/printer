@@ -1,6 +1,8 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:printer/firebase_options.dart';
 
 import 'package:printer/src/services/user_prefs.dart';
 import 'package:printer/src/theme/themes.dart';
@@ -16,9 +18,9 @@ class ConfigApp {
     SystemChrome.setSystemUIOverlayStyle(XTheme.barOverLayStyle);
     _locator();
     await Future.wait([
-      // Firebase.initializeApp(),
-      // AnalyticsService.instance.init(),
-
+      Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      ),
       UserPrefs.instance.initialize(),
     ]);
 

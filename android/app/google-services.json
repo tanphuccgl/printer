@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "923605790451",
+    "project_id": "printer-app-16bca",
+    "storage_bucket": "printer-app-16bca.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:923605790451:android:44b1efbce9caccc31c1186",
+        "android_client_info": {
+          "package_name": "com.levi.printer"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDURzp97kil0rlj_u3rwbaSuw609Or1VKw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
