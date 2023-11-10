@@ -264,8 +264,9 @@ class SearchPage extends StatelessWidget {
                                 backgroundColor: XColors.primary2,
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 10, horizontal: 12)),
-                            onPressed: () =>
-                                context.read<SearchBloc>().deleteProduct(),
+                            onPressed: () => context
+                                .read<SearchBloc>()
+                                .showDeleteConfirmationDialog(context),
                             child: const Text(
                               "Xóa",
                               style: TextStyle(
