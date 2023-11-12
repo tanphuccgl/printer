@@ -19,157 +19,141 @@ class SortPage extends StatelessWidget {
           return Scaffold(
             resizeToAvoidBottomInset: false,
             body: SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 30,
-                  horizontal: 15,
-                ),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "Nhập Mã:",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.normal,
-                        ),
+              child: ListView(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 30,
+                    horizontal: 15,
+                  ),
+                  children: [
+                    const Text(
+                      "Nhập Mã:",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.normal,
                       ),
-                      const SizedBox(height: 20),
-                      XInput(
-                        value: state.productId,
-                        onChanged: (value) =>
-                            context.read<SortBloc>().onChangedProductId(value),
+                    ),
+                    const SizedBox(height: 20),
+                    XInput(
+                      value: state.productId,
+                      onChanged: (value) =>
+                          context.read<SortBloc>().onChangedProductId(value),
+                    ),
+                    const SizedBox(height: 20),
+                    const Text(
+                      "Nhập Vị Trí:",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.normal,
                       ),
-                      const SizedBox(height: 20),
-                      const Text(
-                        "Nhập Vị Trí:",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.normal,
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      SizedBox(
-                        height: 65,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                                width: 85,
-                                height: 65,
-                                child: XInput(
-                                  value: state.shelfNumber == 0
-                                      ? ""
-                                      : state.shelfNumber.toString(),
-                                  keyboardType: TextInputType.number,
-                                  maxLength: 1,
-                                  onChanged: (value) => context
-                                      .read<SortBloc>()
-                                      .onChangedShelfNumber(value),
-                                )),
-                            SizedBox(
-                                width: 85,
-                                height: 65,
-                                child: XInput(
-                                  value: state.columnNumber == 0
-                                      ? ""
-                                      : state.columnNumber.toString(),
-                                  keyboardType: TextInputType.number,
-                                  maxLength: 1,
-                                  onChanged: (value) => context
-                                      .read<SortBloc>()
-                                      .onChangedColumnNumber(value),
-                                )),
-                            SizedBox(
-                                width: 85,
-                                height: 65,
-                                child: XInput(
-                                  value: state.floorNumber == 0
-                                      ? ""
-                                      : state.floorNumber.toString(),
-                                  keyboardType: TextInputType.number,
-                                  maxLength: 1,
-                                  onChanged: (value) => context
-                                      .read<SortBloc>()
-                                      .onChangedFloorNumber(value),
-                                )),
-                            Container(
+                    ),
+                    const SizedBox(height: 20),
+                    SizedBox(
+                      height: 65,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
                               width: 85,
-                              height: 43,
-                              padding: const EdgeInsets.only(left: 5),
-                              decoration: BoxDecoration(
-                                  color: XColors.primary2,
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: DropdownButton<LocationEnum>(
-                                icon: const Icon(Icons.arrow_drop_down),
-                                iconSize: 22,
-                                underline: const SizedBox(),
-                                value: state.location,
-                                onChanged: (LocationEnum? value) {
-                                  return context
-                                      .read<SortBloc>()
-                                      .onChangedLocation(value!);
-                                },
-                                items: LocationEnum.values
-                                    .map((LocationEnum location) {
-                                  return DropdownMenuItem<LocationEnum>(
-                                    value: location,
-                                    child: Text(location.label),
-                                  );
-                                }).toList(),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      const Spacer(),
-                      Center(
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              side: const BorderSide(
-                                  color: XColors.primary3, strokeAlign: 1),
-                              minimumSize: Size(size.width, 40),
-                              elevation: 2,
-                              backgroundColor: XColors.primary2,
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 12)),
-                          onPressed: () => context.read<SortBloc>().printer(),
-                          child: const Text(
-                            "Quét Mã",
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.black,
-                              fontWeight: FontWeight.normal,
+                              height: 65,
+                              child: XInput(
+                                value: state.shelfNumber.toString(),
+                                onChanged: (value) => context
+                                    .read<SortBloc>()
+                                    .onChangedShelfNumber(value),
+                              )),
+                          SizedBox(
+                              width: 85,
+                              height: 65,
+                              child: XInput(
+                                value: state.columnNumber.toString(),
+                                onChanged: (value) => context
+                                    .read<SortBloc>()
+                                    .onChangedColumnNumber(value),
+                              )),
+                          SizedBox(
+                              width: 85,
+                              height: 65,
+                              child: XInput(
+                                value: state.floorNumber.toString(),
+                                onChanged: (value) => context
+                                    .read<SortBloc>()
+                                    .onChangedFloorNumber(value),
+                              )),
+                          Container(
+                            width: 85,
+                            height: 43,
+                            padding: const EdgeInsets.only(left: 5),
+                            decoration: BoxDecoration(
+                                color: XColors.primary2,
+                                borderRadius: BorderRadius.circular(10)),
+                            child: DropdownButton<LocationEnum>(
+                              icon: const Icon(Icons.arrow_drop_down),
+                              iconSize: 22,
+                              underline: const SizedBox(),
+                              value: state.location,
+                              onChanged: (LocationEnum? value) {
+                                return context
+                                    .read<SortBloc>()
+                                    .onChangedLocation(value!);
+                              },
+                              items: LocationEnum.values
+                                  .map((LocationEnum location) {
+                                return DropdownMenuItem<LocationEnum>(
+                                  value: location,
+                                  child: Text(location.label),
+                                );
+                              }).toList(),
                             ),
+                          )
+                        ],
+                      ),
+                    ),
+                    const Spacer(),
+                    Center(
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            side: const BorderSide(
+                                color: XColors.primary3, strokeAlign: 1),
+                            minimumSize: Size(size.width, 40),
+                            elevation: 2,
+                            backgroundColor: XColors.primary2,
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 12)),
+                        onPressed: () => context.read<SortBloc>().printer(),
+                        child: const Text(
+                          "Quét Mã",
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.black,
+                            fontWeight: FontWeight.normal,
                           ),
                         ),
                       ),
-                      const SizedBox(height: 20),
-                      Center(
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              side: const BorderSide(
-                                  color: XColors.primary3, strokeAlign: 1),
-                              minimumSize: Size(size.width, 40),
-                              elevation: 2,
-                              backgroundColor: XColors.primary2,
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 12)),
-                          onPressed: () =>
-                              context.read<SortBloc>().sortProduct(),
-                          child: const Text(
-                            "Lưu",
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.black,
-                              fontWeight: FontWeight.normal,
-                            ),
+                    ),
+                    const SizedBox(height: 20),
+                    Center(
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            side: const BorderSide(
+                                color: XColors.primary3, strokeAlign: 1),
+                            minimumSize: Size(size.width, 40),
+                            elevation: 2,
+                            backgroundColor: XColors.primary2,
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 12)),
+                        onPressed: () => context.read<SortBloc>().sortProduct(),
+                        child: const Text(
+                          "Lưu",
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.black,
+                            fontWeight: FontWeight.normal,
                           ),
                         ),
                       ),
-                    ]),
-              ),
+                    ),
+                  ]),
             ),
           );
         },

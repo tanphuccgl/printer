@@ -9,6 +9,7 @@ import 'package:printer/src/features/add_new_code/pages/dialog_camera.dart';
 import 'package:printer/src/features/add_new_code/pages/pick_image_mixin.dart';
 import 'package:printer/src/network/domain.dart';
 import 'package:printer/src/network/model/product_model.dart';
+import 'package:printer/src/theme/colors.dart';
 import 'package:printer/widgets/dialogs/toast_wrapper.dart';
 import 'package:get_it/get_it.dart';
 part 'add_new_code_state.dart';
@@ -18,7 +19,7 @@ class AddNewCodeBloc extends Cubit<AddNewCodeState> with PickImageMixin {
 
   Domain get domain => GetIt.I<Domain>();
 
-  void createNewProduct() async {
+  void createNewProduct(BuildContext context) async {
     if (state.name.isEmpty) {
       XToast.error("Vui lòng nhập tên sản phẩm");
       return;
@@ -36,13 +37,66 @@ class AddNewCodeBloc extends Cubit<AddNewCodeState> with PickImageMixin {
     final result = await domain.product.createProduct(product);
     if (result.isSuccess) {
       emit(const AddNewCodeState());
-      XToast.success("Thêm mới sản phẩm thành công");
+
       XToast.hideLoading();
+      // ignore: use_build_context_synchronously
+      showSuccessDiaog(context, result.data!);
       return;
     }
     emit(const AddNewCodeState());
     XToast.error("Thêm sản phẩm thất bại");
     XToast.hideLoading();
+  }
+
+  Future<void> showSuccessDiaog(BuildContext context, ProductModel data) async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Thêm mới sản phẩm thành công'),
+          content: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Column(
+                children: [
+                  Text('Mã ID: ${data.id}'),
+                  Text("Tên: ${data.name}"),
+                  const Text('Hình ảnh'),
+                  Container(
+                    height: 100,
+                    width: 100,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: NetworkImage(
+                              data.image,
+                            ),
+                            onError: (_, __) {
+                              const Icon(
+                                Icons.image_outlined,
+                                size: 50,
+                                color: XColors.primary2,
+                              );
+                            },
+                            fit: BoxFit.scaleDown),
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(color: XColors.primary3)),
+                  )
+                ],
+              ),
+            ],
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Xác nhận'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void onChangedName(String value) {

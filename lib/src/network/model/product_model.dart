@@ -41,9 +41,9 @@ class ProductModel extends BaseModel {
   final String name;
   final LocationEnum location;
   final String image;
-  final int shelfNumber;
-  final int columnNumber;
-  final int floorNumber;
+  final String shelfNumber;
+  final String columnNumber;
+  final String floorNumber;
 
   ProductModel({
     String? id,
@@ -52,9 +52,9 @@ class ProductModel extends BaseModel {
     Timestamp? updateAt,
     required this.name,
     this.image = "",
-    this.shelfNumber = 0,
-    this.columnNumber = 0,
-    this.floorNumber = 0,
+    this.shelfNumber = '',
+    this.columnNumber = '',
+    this.floorNumber = '',
   }) : super(id: id ?? "", createAt: createAt, updateAt: updateAt);
 
   factory ProductModel.empty() {
@@ -63,9 +63,9 @@ class ProductModel extends BaseModel {
       location: LocationEnum.inside,
       name: "",
       image: "",
-      shelfNumber: 0,
-      columnNumber: 0,
-      floorNumber: 0,
+      shelfNumber: '',
+      columnNumber: '',
+      floorNumber: '',
     );
   }
 
@@ -75,9 +75,9 @@ class ProductModel extends BaseModel {
       location: LocationEnum.inside,
       name: "",
       image: "",
-      shelfNumber: 0,
-      columnNumber: 0,
-      floorNumber: 0,
+      shelfNumber: '',
+      columnNumber: '',
+      floorNumber: '',
     );
   }
 
@@ -122,9 +122,9 @@ class ProductModel extends BaseModel {
     String? name,
     LocationEnum? location,
     String? image,
-    int? shelfNumber,
-    int? columnNumber,
-    int? floorNumber,
+    String? shelfNumber,
+    String? columnNumber,
+    String? floorNumber,
     String? id,
   }) {
     return ProductModel(
