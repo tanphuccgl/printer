@@ -109,7 +109,6 @@ class SortPage extends StatelessWidget {
                         ],
                       ),
                     ),
-                    const Spacer(),
                     Center(
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(

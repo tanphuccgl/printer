@@ -189,23 +189,20 @@ class SearchPage extends StatelessWidget {
                       ),
                       const SizedBox(height: 20),
                       (state.productModel.image).isEmpty
-                          ? Expanded(
-                              child: Container(
-                                height: 300,
-                                width: size.width,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: XColors.primary4,
-                                ),
-                                child: const Icon(
-                                  Icons.image_outlined,
-                                  size: 100,
-                                  color: XColors.primary2,
-                                ),
+                          ? Container(
+                              height: 300,
+                              width: size.width,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: XColors.primary4,
+                              ),
+                              child: const Icon(
+                                Icons.image_outlined,
+                                size: 100,
+                                color: XColors.primary2,
                               ),
                             )
-                          : Expanded(
-                              child: Container(
+                          : Container(
                               height: 300,
                               width: size.width,
                               decoration: BoxDecoration(
@@ -216,7 +213,7 @@ class SearchPage extends StatelessWidget {
                                       fit: BoxFit.scaleDown),
                                   borderRadius: BorderRadius.circular(20),
                                   border: Border.all(color: XColors.primary3)),
-                            )),
+                            ),
                       const SizedBox(height: 20),
                       Center(
                         child: ElevatedButton(
