@@ -133,7 +133,7 @@ class AddNewCodePage extends StatelessWidget {
                               width: 5,
                             ),
                             Text(
-                              "Thêm Mới",
+                              "Save",
                               style: TextStyle(
                                 fontSize: 20,
                                 color: Colors.black,
@@ -141,29 +141,6 @@ class AddNewCodePage extends StatelessWidget {
                               ),
                             ),
                           ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    Center(
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            side: const BorderSide(
-                                color: XColors.primary3, strokeAlign: 1),
-                            minimumSize: Size(size.width, 40),
-                            elevation: 2,
-                            backgroundColor: XColors.primary2,
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 12)),
-                        onPressed: () =>
-                            context.read<AddNewCodeBloc>().printer(),
-                        child: const Text(
-                          "Xác Nhận Và In",
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.black,
-                            fontWeight: FontWeight.normal,
-                          ),
                         ),
                       ),
                     ),

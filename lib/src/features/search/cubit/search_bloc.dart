@@ -101,11 +101,13 @@ class SearchBloc extends Cubit<SearchState> {
       await getAllProduct();
       XToast.success("Xóa sản phẩm thành công");
       emit(SearchState.ds());
+      getAllProduct();
       XToast.hideLoading();
       return;
     }
     await getAllProduct();
     emit(SearchState.ds());
+    getAllProduct();
     XToast.error("Xóa sản phẩm thất bại");
     XToast.hideLoading();
   }

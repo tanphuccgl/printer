@@ -33,88 +33,87 @@ class SearchPage extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: XInput(
-                            value: state.productId,
-                            onChanged: (value) => context
-                                .read<SearchBloc>()
-                                .onChangedProductId(value),
+                    SizedBox(
+                      width: size.width,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: XInput(
+                              value: state.productId,
+                              onChanged: (value) => context
+                                  .read<SearchBloc>()
+                                  .onChangedProductId(value),
+                            ),
                           ),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Center(
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                elevation: 2,
-                                side: const BorderSide(
-                                    color: XColors.primary3, strokeAlign: 1),
-                                backgroundColor: XColors.primary2,
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 10, horizontal: 12)),
-                            onPressed: () =>
-                                context.read<SearchBloc>().searchProduct(),
-                            child: const Text(
-                              "Tìm kiếm",
-                              style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.black,
-                                fontWeight: FontWeight.normal,
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Center(
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  elevation: 2,
+                                  side: const BorderSide(
+                                      color: XColors.primary3, strokeAlign: 1),
+                                  backgroundColor: XColors.primary2,
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 10, horizontal: 12)),
+                              onPressed: () =>
+                                  context.read<SearchBloc>().searchProduct(),
+                              child: const Text(
+                                "Tìm kiếm",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.normal,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                     const SizedBox(height: 20),
                     if (state.productModel.id == "")
-                      Expanded(
-                        child: ListView.builder(
-                          itemCount: state.list.length,
-                          shrinkWrap: true,
-                          itemBuilder: (context, index) {
-                            final item = state.list[index];
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 4),
-                              child: GestureDetector(
-                                onTap: () => context
-                                    .read<SearchBloc>()
-                                    .onTapProduct(item),
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      height: 50,
-                                      width: 50,
-                                      decoration: BoxDecoration(
-                                          image: DecorationImage(
-                                              image: NetworkImage(
-                                                item.image,
-                                              ),
-                                              fit: BoxFit.scaleDown),
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                          border: Border.all(
-                                              color: XColors.primary3)),
-                                    ),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text(
-                                      item.id,
-                                      style: const TextStyle(
-                                          color: Colors.black, fontSize: 18),
-                                    )
-                                  ],
-                                ),
+                      ListView.builder(
+                        itemCount: state.list.length,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          final item = state.list[index];
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 4),
+                            child: GestureDetector(
+                              onTap: () =>
+                                  context.read<SearchBloc>().onTapProduct(item),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    height: 50,
+                                    width: 50,
+                                    decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                            image: NetworkImage(
+                                              item.image,
+                                            ),
+                                            fit: BoxFit.scaleDown),
+                                        borderRadius: BorderRadius.circular(20),
+                                        border: Border.all(
+                                            color: XColors.primary3)),
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    item.id,
+                                    style: const TextStyle(
+                                        color: Colors.black, fontSize: 18),
+                                  )
+                                ],
                               ),
-                            );
-                          },
-                        ),
+                            ),
+                          );
+                        },
                       )
                     else ...[
                       const Text(

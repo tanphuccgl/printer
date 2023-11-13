@@ -51,7 +51,10 @@ class AddNewCodeBloc extends Cubit<AddNewCodeState> with PickImageMixin {
   Future<void> showSuccessDiaog(BuildContext context, ProductModel data) async {
     return showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (BuildContext context) {
+        final size = MediaQuery.of(context).size;
+
         return AlertDialog(
           title: const Text('Thêm mới sản phẩm thành công'),
           content: Column(
@@ -81,19 +84,55 @@ class AddNewCodeBloc extends Cubit<AddNewCodeState> with PickImageMixin {
                             fit: BoxFit.scaleDown),
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(color: XColors.primary3)),
-                  )
+                  ),
+                  const SizedBox(height: 20),
+                  Center(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          side: const BorderSide(
+                              color: XColors.primary3, strokeAlign: 1),
+                          minimumSize: Size(size.width, 40),
+                          elevation: 2,
+                          backgroundColor: XColors.primary2,
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 12)),
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text(
+                        "Xác Nhận",
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.black,
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Center(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          side: const BorderSide(
+                              color: XColors.primary3, strokeAlign: 1),
+                          minimumSize: Size(size.width, 40),
+                          elevation: 2,
+                          backgroundColor: XColors.primary2,
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 12)),
+                      onPressed: () => printer(),
+                      child: const Text(
+                        "Print",
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.black,
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ],
           ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Xác nhận'),
-            ),
-          ],
         );
       },
     );
