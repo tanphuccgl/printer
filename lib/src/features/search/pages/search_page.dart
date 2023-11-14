@@ -188,17 +188,36 @@ class SearchPage extends StatelessWidget {
                       ),
                       const SizedBox(height: 20),
                       (state.productModel.image).isEmpty
-                          ? Container(
-                              height: 300,
-                              width: size.width,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: XColors.primary4,
-                              ),
-                              child: const Icon(
-                                Icons.image_outlined,
-                                size: 100,
-                                color: XColors.primary2,
+                          ? ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  elevation: 2,
+                                  side: const BorderSide(
+                                      color: XColors.primary3, strokeAlign: 1),
+                                  backgroundColor: XColors.primary2,
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 10, horizontal: 12)),
+                              onPressed: () => context
+                                  .read<SearchBloc>()
+                                  .onCameraButton(context),
+                              child: const Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    Icons.add_box_outlined,
+                                    color: Colors.black,
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                    "Thêm Ảnh Mới",
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                  ),
+                                ],
                               ),
                             )
                           : Container(
