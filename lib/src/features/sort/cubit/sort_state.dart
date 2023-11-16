@@ -3,15 +3,15 @@ part of 'sort_bloc.dart';
 
 class SortState extends Equatable {
   final String productId;
-  final int shelfNumber;
-  final int columnNumber;
-  final int floorNumber;
+  final String shelfNumber;
+  final String columnNumber;
+  final String floorNumber;
   final LocationEnum location;
   const SortState({
     this.productId = "",
-    this.shelfNumber = 0,
-    this.columnNumber = 0,
-    this.floorNumber = 0,
+    this.shelfNumber = "",
+    this.columnNumber = "",
+    this.floorNumber = "",
     this.location = LocationEnum.inside,
   });
 
@@ -26,9 +26,9 @@ class SortState extends Equatable {
 
   SortState copyWith({
     String? productId,
-    int? shelfNumber,
-    int? columnNumber,
-    int? floorNumber,
+    String? shelfNumber,
+    String? columnNumber,
+    String? floorNumber,
     LocationEnum? location,
   }) {
     return SortState(

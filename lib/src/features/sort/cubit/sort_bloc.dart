@@ -46,15 +46,15 @@ class SortBloc extends Cubit<SortState> {
   }
 
   void onChangedShelfNumber(String value) {
-    emit(state.copyWith(shelfNumber: int.tryParse(value) ?? 0));
+    emit(state.copyWith(shelfNumber: value));
   }
 
   void onChangedColumnNumber(String value) {
-    emit(state.copyWith(columnNumber: int.tryParse(value) ?? 0));
+    emit(state.copyWith(columnNumber: value));
   }
 
   void onChangedFloorNumber(String value) {
-    emit(state.copyWith(floorNumber: int.tryParse(value) ?? 0));
+    emit(state.copyWith(floorNumber: value));
   }
 
   void onChangedLocation(LocationEnum value) {
