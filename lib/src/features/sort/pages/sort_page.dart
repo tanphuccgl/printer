@@ -38,6 +38,27 @@ class SortPage extends StatelessWidget {
                       onChanged: (value) =>
                           context.read<SortBloc>().onChangedProductId(value),
                     ),
+                    Center(
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            side: const BorderSide(
+                                color: XColors.primary3, strokeAlign: 1),
+                            minimumSize: Size(size.width, 40),
+                            elevation: 2,
+                            backgroundColor: XColors.primary2,
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 12)),
+                        onPressed: () => context.read<SortBloc>().scan(),
+                        child: const Text(
+                          "Quét Mã",
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.black,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      ),
+                    ),
                     const SizedBox(height: 20),
                     const Text(
                       "Nhập Vị Trí:",
@@ -119,9 +140,9 @@ class SortPage extends StatelessWidget {
                             backgroundColor: XColors.primary2,
                             padding: const EdgeInsets.symmetric(
                                 vertical: 10, horizontal: 12)),
-                        onPressed: () => context.read<SortBloc>().printer(),
+                        onPressed: () => context.read<SortBloc>().scan(),
                         child: const Text(
-                          "Quét Mã",
+                          "Quét Vị Trí",
                           style: TextStyle(
                             fontSize: 20,
                             color: Colors.black,

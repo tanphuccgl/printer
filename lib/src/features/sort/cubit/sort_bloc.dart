@@ -2,8 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:printer/src/features/scan/pages/scan_page.dart';
 import 'package:printer/src/network/domain.dart';
 import 'package:printer/src/network/model/product_model.dart';
+import 'package:printer/src/router/coordinator.dart';
 import 'package:printer/widgets/dialogs/toast_wrapper.dart';
 
 part 'sort_state.dart';
@@ -61,7 +63,7 @@ class SortBloc extends Cubit<SortState> {
     emit(state.copyWith(location: value));
   }
 
-  void printer() {
-    XToast.show("Tính năng đang phát triển");
+  void scan() {
+    XCoordinator.push(const ScanQrPage());
   }
 }
