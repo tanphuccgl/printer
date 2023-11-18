@@ -1,3 +1,5 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'dart:io';
 
 import 'package:equatable/equatable.dart';
@@ -12,6 +14,10 @@ import 'package:printer/src/network/model/product_model.dart';
 import 'package:printer/src/theme/colors.dart';
 import 'package:printer/widgets/dialogs/toast_wrapper.dart';
 import 'package:get_it/get_it.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:printing/printing.dart';
+import 'package:pdf/pdf.dart';
+
 part 'add_new_code_state.dart';
 
 class AddNewCodeBloc extends Cubit<AddNewCodeState> with PickImageMixin {
@@ -118,7 +124,7 @@ class AddNewCodeBloc extends Cubit<AddNewCodeState> with PickImageMixin {
                           backgroundColor: XColors.primary2,
                           padding: const EdgeInsets.symmetric(
                               vertical: 10, horizontal: 12)),
-                      onPressed: () => printer(),
+                      onPressed: () => printer(id: data.id, name: data.name),
                       child: const Text(
                         "Print",
                         style: TextStyle(
@@ -187,7 +193,49 @@ class AddNewCodeBloc extends Cubit<AddNewCodeState> with PickImageMixin {
     }
   }
 
-  void printer() {
-    XToast.show("Tính năng đang phát triển");
+  void printer({
+    required String id,
+    required String name,
+  }) async {
+    final doc = pw.Document();
+
+    doc.addPage(
+      pw.Page(
+        pageFormat: const PdfPageFormat(150, 100),
+        build: (pw.Context context) {
+          return pw.Center(
+            child: pw.Column(
+              children: [
+                pw.Text("Mã $id"),
+                pw.SizedBox(height: 5),
+                pw.Text("Tên $name"),
+                pw.SizedBox(height: 5),
+                pw.SizedBox(
+                    height: 30,
+                    width: 50,
+                    child: pw.BarcodeWidget(
+                      barcode: pw.Barcode.code128(),
+                      data: id,
+                      drawText: false,
+                    ))
+              ],
+            ),
+          ); // Center
+        },
+      ),
+    ); // Page
+
+    await Printing.layoutPdf(
+        onLayout: (PdfPageFormat format) async => doc.save());
+
+    /// share the document to other applications:
+    // await Printing.sharePdf(
+    //     bytes: await doc.save(), filename: 'my-document.pdf');
+
+    /// tutorial for using path_provider: https://www.youtube.com/watch?v=fJtFDrjEvE8
+    /// save PDF with Flutter library "path_provider":
+    // final output = await getTemporaryDirectory();
+    // final file = File('${output.path}/example.pdf');
+    // await file.writeAsBytes(await doc.save());
   }
 }
