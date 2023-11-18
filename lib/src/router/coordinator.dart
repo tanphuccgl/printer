@@ -24,5 +24,10 @@ class XCoordinator {
         MaterialPageRoute(builder: (context) => screen),
       );
 
+  static Future<T?> pushReplacement<T extends Object?>(Widget screen) =>
+      navigator.pushReplacement(
+        MaterialPageRoute(builder: (context) => screen),
+      );
+
   static Future showDashboard() => pushNamed(XRouterName.dashboard);
 }

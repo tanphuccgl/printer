@@ -65,6 +65,8 @@ dependencies:
   # QR Code
   qr_code_scanner: ^1.0.1
   qr_flutter: ^4.0.0
+  syncfusion_flutter_barcodes: ^23.1.44
+  printing: ^5.11.1
 
   # OTHER
   change_app_package_name: 1.1.0

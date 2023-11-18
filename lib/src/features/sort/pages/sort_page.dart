@@ -48,7 +48,8 @@ class SortPage extends StatelessWidget {
                             backgroundColor: XColors.primary2,
                             padding: const EdgeInsets.symmetric(
                                 vertical: 10, horizontal: 12)),
-                        onPressed: () => context.read<SortBloc>().scan(),
+                        onPressed: () =>
+                            context.read<SortBloc>().scan(context, true),
                         child: const Text(
                           "Quét Mã",
                           style: TextStyle(
@@ -140,7 +141,8 @@ class SortPage extends StatelessWidget {
                             backgroundColor: XColors.primary2,
                             padding: const EdgeInsets.symmetric(
                                 vertical: 10, horizontal: 12)),
-                        onPressed: () => context.read<SortBloc>().scan(),
+                        onPressed: () =>
+                            context.read<SortBloc>().scan(context, false),
                         child: const Text(
                           "Quét Vị Trí",
                           style: TextStyle(

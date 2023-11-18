@@ -9,7 +9,10 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 part 'scan_state.dart';
 
 class ScanBloc extends Cubit<ScanState> {
-  ScanBloc() : super(const ScanState()) {
+  final BuildContext context;
+  ScanBloc(
+    this.context,
+  ) : super(const ScanState()) {
     _getCameraPermission();
   }
 
@@ -34,13 +37,17 @@ class ScanBloc extends Cubit<ScanState> {
   void scannedStream() {
     if (controller == null) return;
     controller!.scannedDataStream.listen((scanData) {
-      _emitIfOpen(state.copyWith(barcode: scanData));
+      if (scanData.code != null) {
+        emit(state.copyWith(barcode: scanData));
+        if (state.barcode != null) {
+          controller?.stopCamera();
+          Navigator.pop(context, scanData.code);
+        }
+      }
     });
   }
 
   void onPermissionSet(
-    // BuildContext context,
-    // QRViewController ctrl,
     bool p,
   ) {
     _log.i('${DateTime.now().toIso8601String()}_onPermissionSet $p');
@@ -54,11 +61,5 @@ class ScanBloc extends Cubit<ScanState> {
     controller?.dispose();
 
     return super.close();
-  }
-
-  void _emitIfOpen(ScanState newState) {
-    if (!isClosed) {
-      emit(newState);
-    }
   }
 }

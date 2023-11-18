@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,12 +6,14 @@ import 'package:printer/src/theme/colors.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class ScanQrPage extends StatelessWidget {
-  const ScanQrPage({super.key});
+  const ScanQrPage({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => ScanBloc(),
+      create: (_) => ScanBloc(context),
       child: BlocBuilder<ScanBloc, ScanState>(
         builder: (context, state) {
           final bloc = context.read<ScanBloc>();
@@ -35,20 +36,6 @@ class ScanQrPage extends StatelessWidget {
                   p,
                 ),
               ),
-              //TODO
-              (state.barcode != null)
-                  ? Center(
-                      child: Text(
-                        'Barcode Type: ${describeEnum(state.barcode!.format)}   Data: ${state.barcode!.code}',
-                        style: const TextStyle(color: Colors.black),
-                      ),
-                    )
-                  : const Center(
-                      child: Text(
-                        'Scan a code',
-                        style: TextStyle(color: Colors.black),
-                      ),
-                    ),
               Align(
                 alignment: Alignment.topLeft,
                 child: Padding(
@@ -57,7 +44,7 @@ class ScanQrPage extends StatelessWidget {
                     top: MediaQuery.of(context).padding.top + 20.h,
                   ),
                   child: ElevatedButton(
-                    onPressed: () => Navigator.pop(context),
+                    onPressed: () => Navigator.pop(context, ""),
                     style: ElevatedButton.styleFrom(
                       fixedSize: Size(40.w, 40.w),
                       elevation: 0,
